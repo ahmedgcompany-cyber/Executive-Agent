@@ -1,0 +1,56 @@
+# ──────────────────────────────────────────────────────────────
+# MegaV v2.7 — Requirements
+# Install all:  pip install -r requirements.txt
+# Pinned to minor versions to avoid breaking-API surprises.
+# ──────────────────────────────────────────────────────────────
+
+# ── Core ──────────────────────────────────────────────────────
+openai~=1.30                # used by some skill handlers
+python-dotenv~=1.0
+rich~=13.7
+prompt-toolkit~=3.0
+pyyaml~=6.0
+
+# ── Security / Encryption ─────────────────────────────────────
+cryptography~=41.0          # Fernet — REQUIRED, no fallback
+
+# ── Process / system utilities ────────────────────────────────
+psutil~=5.9                 # cross-platform PID liveness + graceful kill
+
+# ── Web Research / Scraping ───────────────────────────────────
+requests~=2.31
+beautifulsoup4~=4.12
+
+# ── Browser Automation ────────────────────────────────────────
+playwright~=1.40
+
+# ── Desktop Automation (Windows-only — guarded at import sites) ─
+pywinauto~=0.6 ; sys_platform == "win32"
+uiautomation~=2.0 ; sys_platform == "win32"
+pyautogui~=0.9
+pywin32>=306 ; sys_platform == "win32"
+
+# ── Vision / Image Processing ─────────────────────────────────
+pillow~=10.0
+opencv-python~=4.8
+numpy~=1.24
+
+# ── GUI ───────────────────────────────────────────────────────
+pyside6~=6.5
+
+# ── Document / File Processing ────────────────────────────────
+pymupdf~=1.23
+pypdf~=3.0
+python-docx~=1.0
+openpyxl~=3.1
+python-pptx~=0.6
+
+# ── Media / Download ──────────────────────────────────────────
+yt-dlp>=2024.1.0
+
+# ── Development / Testing ─────────────────────────────────────
+build~=1.0
+pytest~=8.0
+black~=23.0
+isort~=5.12
+mypy~=1.5

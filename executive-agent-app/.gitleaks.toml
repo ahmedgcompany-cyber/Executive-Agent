@@ -1,0 +1,24 @@
+# gitleaks config — MegaV
+#
+# Inherits the default ruleset (Stripe, AWS, GitHub PATs, etc.) and adds
+# safe-list patterns so test fixtures and example values do not trip the scanner.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "MegaV safe-list — test fixtures, dummy values, and documentation examples"
+paths = [
+    '''tests/.*''',
+    '''.*\.md$''',
+    '''.*test.*\.py$''',
+    '''profiles/user_profile\.json$''',
+    '''profiles/github_credentials\.json$''',
+]
+regexes = [
+    '''sk_test_smoke_dummy[A-Z]*''',
+    '''sk_test_baby_step_dummy''',
+    '''sk_test_dummy''',
+    '''sk_test_51TRa1''',  # documentation reference to the rotated/leaked key
+    '''ghp_zqYumidewdB6ISiF0dCDvEOBCJguZX2COBt5''',  # legacy obfuscated token in old ZIPs
+]

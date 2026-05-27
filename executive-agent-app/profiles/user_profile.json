@@ -1,0 +1,30 @@
+{
+  "certifications": [],
+  "education": [
+    {
+      "degree": "",
+      "field": "",
+      "institution": "",
+      "year": ""
+    }
+  ],
+  "emails": [],
+  "job_titles": [],
+  "languages": ["English"],
+  "linkedin": "",
+  "location": "",
+  "name": "Your Name",
+  "phones": [],
+  "portfolio": "",
+  "preferences": {
+    "industries": [],
+    "job_type": ["Full-time"],
+    "notice_period_days": 30,
+    "salary_currency": "USD",
+    "work_mode": ["Remote", "Hybrid", "On-site"]
+  },
+  "resume_default": "profiles/resumes/main_resume.pdf",
+  "skills": [],
+  "website": "",
+  "writing_style": "professional"
+}

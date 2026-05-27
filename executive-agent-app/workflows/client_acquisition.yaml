@@ -1,0 +1,70 @@
+name: Client Acquisition Pipeline
+version: "1.0"
+description: >
+  Fully autonomous pipeline from prospect discovery to paid invoice.
+  Runs agents in sequence, passing output of each phase as context to next.
+requires_approval_for:
+  - send_invoice
+  - create_payment_link
+
+phases:
+  - id: prospect
+    name: Prospect Discovery
+    agent: browser
+    action: >
+      Search LinkedIn, Upwork, and Clutch.co for companies in UAE and GCC
+      that need AI automation, software development, or digital transformation.
+      For each prospect extract: company_name, contact_name, email, website,
+      company_size, industry. Find at least 10 prospects per run.
+    output_key: prospects
+
+  - id: qualify
+    name: Lead Qualification
+    agent: sales
+    action: >
+      Score each prospect in {prospects} from 1-10 based on:
+      - Budget signals (company size, recent job postings, tech stack)
+      - Fit with our AI/automation services
+      - Likelihood to respond to cold outreach
+      Keep only those scoring 7 or above. Return as qualified_leads list.
+    output_key: qualified_leads
+
+  - id: research
+    name: Deep Research
+    agent: browser
+    action: >
+      For each lead in {qualified_leads} research:
+      - Recent company news or announcements
+      - The contact's LinkedIn posts and interests
+      - Their current tech stack and visible pain points
+      Return enriched lead objects with research_notes field.
+    output_key: enriched_leads
+
+  - id: outreach
+    name: Write Outreach Emails
+    agent: content
+    action: >
+      Write a personalized cold email for each lead in {enriched_leads}.
+      Reference one specific thing from their research_notes.
+      Introduce Ahmed Al-Ghoul as an AI automation consultant based in UAE.
+      Offer one specific value relevant to their industry.
+      Suggest a free 15-minute strategy call.
+      Keep under 150 words. Professional but conversational.
+    output_key: outreach_emails
+
+  - id: send
+    name: Send Outreach
+    agent: email
+    action: >
+      Send each email in {outreach_emails} to its lead's email address.
+      Log each send in CRM with status "contacted".
+      Schedule follow-up reminders: Day 3, Day 7, Day 14.
+    requires_approval: false
+
+  - id: invoice
+    name: Send Invoice (on deal close)
+    agent: finance
+    action: >
+      When a lead confirms they want to proceed, create and send a Stripe
+      invoice for the agreed amount. Include clear payment terms.
+    requires_approval: true

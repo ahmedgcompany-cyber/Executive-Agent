@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-04-11",
+  "skills": [],
+  "sources": [
+    {
+      "name": "official",
+      "url": "https://skills.executive-agent.local",
+      "enabled": true
+    }
+  ],
+  "settings": {
+    "auto_update": false,
+    "quarantine_enabled": true,
+    "validation_required": true
+  }
+}

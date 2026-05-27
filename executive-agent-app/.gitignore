@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Logs + scratch
+logs/
+*.log
+out.log
+output.txt
+test_output.txt
+
+# Local secrets — must NEVER be committed
+.env
+.env.*
+profiles/credentials/
+profiles/resumes/
+~/.megav/
+
+# Build / dist
+_dist_staging/
+*.zip
+build/
+dist/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store

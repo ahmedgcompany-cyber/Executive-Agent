@@ -1,0 +1,65 @@
+permissions:
+  # File system permissions
+  file_read:
+    default: allow
+    restricted_paths:
+      - "~/.ssh"
+      - "~/.executive-agent/config"
+      - "~/.megav"
+
+  file_write:
+    default: ask
+    allowed_paths:
+      - "./"
+      - "~/Documents"
+      - "~/Desktop"
+
+  file_delete:
+    default: ask
+
+  # Browser permissions
+  browser_navigation:
+    default: ask           # was 'allow' — autonomous URL fetches now logged & confirmed
+
+  browser_form_fill:
+    default: ask
+    auto_fill_domains: []
+
+  browser_file_upload:
+    default: ask
+
+  # Desktop permissions
+  desktop_app_launch:
+    default: ask           # was 'allow' — launching apps requires confirmation
+    restricted_apps: []
+
+  desktop_ui_control:
+    default: ask
+
+  desktop_screenshot:
+    default: ask           # was 'allow' — screen capture requires confirmation
+
+  # System permissions
+  bash_execution:
+    default: ask
+    allowed_commands:
+      - "git"
+      - "python"
+      - "pip"
+      - "npm"
+      - "ls"
+      - "cat"
+      - "echo"
+
+  network_access:
+    default: allow
+
+  # Skill permissions
+  skill_install:
+    default: ask
+
+  skill_auto_update:
+    default: deny
+
+# Permission levels: allow, ask, deny
+# Every check is recorded to logs/audit_log.jsonl regardless of outcome.

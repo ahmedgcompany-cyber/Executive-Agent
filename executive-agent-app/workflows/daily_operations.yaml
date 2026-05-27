@@ -1,0 +1,48 @@
+name: Daily Business Operations
+version: "1.0"
+description: Autonomous daily tasks — runs every weekday at 8am
+schedule: "0 8 * * 1-5"
+
+tasks:
+  - time: "08:00"
+    agent: email
+    action: >
+      Read inbox. Classify emails: urgent/normal/newsletter/spam.
+      For urgent and normal: draft a reply. Save drafts for review.
+      Flag anything mentioning invoice, payment, or contract.
+    requires_approval: false
+
+  - time: "09:00"
+    agent: sales
+    action: >
+      Check CRM for leads with follow-up due today.
+      Send the scheduled follow-up emails. Update CRM status.
+      If a lead has gone cold (no response in 14 days), mark as closed.
+    requires_approval: false
+
+  - time: "10:00"
+    agent: social
+    action: >
+      Post one scheduled content piece to LinkedIn.
+      Topic: AI automation, productivity, or tech insight.
+      Professional tone. Include one actionable tip. Under 200 words.
+    requires_approval: true
+
+  - time: "12:00"
+    agent: finance
+    action: >
+      Check for new Stripe payments received today.
+      Update CRM records for any paid invoices.
+      Flag any invoices overdue by more than 3 days for follow-up email.
+    requires_approval: false
+
+  - time: "17:00"
+    agent: content
+    action: >
+      Write an end-of-day summary report including:
+      - Number of emails sent and received
+      - Leads contacted and pipeline changes
+      - Any payments received (amounts and clients)
+      - Tasks completed and any blockers
+      Format as a brief executive summary under 200 words.
+    requires_approval: false

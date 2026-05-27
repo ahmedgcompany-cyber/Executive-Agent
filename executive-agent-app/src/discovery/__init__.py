@@ -1,0 +1,1 @@
+# Discovery engine — CLI scanner, skill scanner, gap analyzer

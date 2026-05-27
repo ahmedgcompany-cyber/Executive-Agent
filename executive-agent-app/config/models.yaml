@@ -1,0 +1,181 @@
+# MegaV Model Configuration — Uncensored-First
+# This file defines available models and routing priorities.
+# The Python code reads this to augment the hardcoded catalog.
+
+providers:
+  ollama:
+    enabled: true
+    base_url: "http://localhost:11434"
+    default_model: "dolphin-mistral"
+    models:
+      # ── Tier 0: Ollama Cloud (requires `ollama signin` or OLLAMA_API_KEY) ──
+      - name: "kimi-k2.6:cloud"
+        description: "Kimi K2.6 — 256K ctx, vision, top reasoning (cloud)"
+        context_length: 256000
+        cloud: true
+        task_types: ["general", "coder", "reasoning", "vision"]
+
+      - name: "qwen3.5:cloud"
+        description: "Qwen 3.5 — 256K ctx, vision, strong all-round (cloud)"
+        context_length: 256000
+        cloud: true
+        task_types: ["general", "coder", "reasoning", "vision"]
+
+      - name: "minimax-m2.7:cloud"
+        description: "MiniMax M2.7 — 200K ctx, agentic + coding (cloud)"
+        context_length: 200000
+        cloud: true
+        task_types: ["coder", "general", "reasoning"]
+
+      - name: "glm-5.1:cloud"
+        description: "GLM 5.1 — 198K ctx, fast (cloud)"
+        context_length: 198000
+        cloud: true
+        task_types: ["fast", "general"]
+
+      # ── Tier 1: Maximum capability (12GB+ VRAM) ──
+      - name: "richardyoung/qwen3-14b-abliterated:Q4_K_M"
+        description: "Qwen3 14B Abliterated — best quality-to-size ratio"
+        context_length: 128000
+        uncensored: true
+        vram_tier: 1
+        task_types: ["general", "coder", "reasoning"]
+
+      - name: "richardyoung/deepseek-r1-32b-uncensored"
+        description: "DeepSeek R1 32B — reasoning powerhouse"
+        context_length: 128000
+        uncensored: true
+        vram_tier: 1
+        task_types: ["reasoning", "general"]
+
+      # ── Tier 2: Good capability (8-12GB VRAM) ──
+      - name: "huihui_ai/dolphin3-abliterated"
+        description: "Dolphin 3 Abliterated — popular uncensored general model"
+        context_length: 128000
+        uncensored: true
+        vram_tier: 2
+        task_types: ["general", "coder", "fast"]
+
+      - name: "hf.co/brillio-ai/Mistral-Nemo-12B-Uncensored-Heretic:Q4_K_M"
+        description: "Mistral Nemo 12B Heretic — uncensored reasoning"
+        context_length: 32000
+        uncensored: true
+        vram_tier: 2
+        task_types: ["general", "coder"]
+
+      - name: "hf.co/bartowski/Llama-3.3-8B-Instruct-Thinking-Heretic:Q4_K_M"
+        description: "Llama 3.3 8B Thinking Heretic — uncensored with thinking"
+        context_length: 128000
+        uncensored: true
+        vram_tier: 2
+        task_types: ["general", "reasoning"]
+
+      - name: "deepseek-coder-v2"
+        description: "DeepSeek Coder V2 — standard (censored)"
+        context_length: 128000
+        uncensored: false
+        vram_tier: 2
+        task_types: ["coder"]
+
+      # ── Tier 3: Lightweight (4-8GB VRAM) ──
+      - name: "dolphin-mistral"
+        description: "Dolphin Mistral 7B — lightweight uncensored"
+        context_length: 32000
+        uncensored: true
+        vram_tier: 3
+        task_types: ["general", "fast"]
+
+      - name: "R4C3R/qwen2.5-3b-heretic"
+        description: "Qwen 2.5 3B Heretic — ultra-lightweight uncensored"
+        context_length: 32000
+        uncensored: true
+        vram_tier: 3
+        task_types: ["fast", "general"]
+
+      - name: "llama3.2"
+        description: "Llama 3.2 — standard (censored) fallback"
+        context_length: 128000
+        uncensored: false
+        vram_tier: 3
+        task_types: ["general", "fast"]
+
+      - name: "mistral"
+        description: "Mistral 7B — standard (censored) fallback"
+        context_length: 32000
+        uncensored: false
+        vram_tier: 3
+        task_types: ["general", "fast"]
+
+      # ── Vision models ──
+      - name: "llava"
+        description: "LLaVA — vision-capable model"
+        context_length: 4096
+        uncensored: false
+        vram_tier: 2
+        task_types: ["vision"]
+
+  anthropic:
+    enabled: false  # Enable by setting ANTHROPIC_API_KEY
+    base_url: "https://api.anthropic.com"
+    default_model: "claude-sonnet-4-6"
+    models:
+      - name: "claude-opus-4-6"
+        description: "Claude Opus — most capable, best for complex reasoning"
+        context_length: 200000
+      - name: "claude-sonnet-4-6"
+        description: "Claude Sonnet — balanced, smart, recommended for most tasks"
+        context_length: 200000
+      - name: "claude-haiku-4-5-20251001"
+        description: "Claude Haiku — fastest, cheapest, for high-volume tasks"
+        context_length: 200000
+
+  deepseek:
+    enabled: false  # Enable by setting DEEPSEEK_API_KEY
+    base_url: "https://api.deepseek.com"
+    default_model: "deepseek-chat"
+    models:
+      - name: "deepseek-chat"
+        description: "DeepSeek V3 — cheap, capable, supports tool calling ($0.27/1M input)"
+        context_length: 128000
+      - name: "deepseek-reasoner"
+        description: "DeepSeek R1 — reasoning model with visible thinking ($0.55/1M input)"
+        context_length: 128000
+
+routing:
+  default_provider: "ollama"
+  prefer_uncensored: true
+  task_routing:
+    coder:
+      - provider: "ollama"
+        model: "richardyoung/qwen3-14b-abliterated:Q4_K_M"
+      - provider: "deepseek"
+        model: "deepseek-chat"
+      - provider: "anthropic"
+        model: "claude-sonnet-4-6"
+    general:
+      - provider: "ollama"
+        model: "huihui_ai/dolphin3-abliterated"
+      - provider: "deepseek"
+        model: "deepseek-chat"
+      - provider: "anthropic"
+        model: "claude-sonnet-4-6"
+    reasoning:
+      - provider: "ollama"
+        model: "richardyoung/deepseek-r1-32b-uncensored"
+      - provider: "deepseek"
+        model: "deepseek-reasoner"
+      - provider: "anthropic"
+        model: "claude-sonnet-4-6"
+    fast:
+      - provider: "ollama"
+        model: "dolphin-mistral"
+      - provider: "deepseek"
+        model: "deepseek-chat"
+    vision:
+      - provider: "ollama"
+        model: "llava"
+
+fallback_chain:
+  - "ollama"
+  - "deepseek"
+  - "anthropic"

@@ -1,0 +1,23 @@
+category: creative_apps
+created_at: '2026-05-07T22:58:48.439084'
+description: hello
+name: hello
+steps:
+- action: create
+  description: Create content
+  success: true
+  summary: 'Content created (16 words):
+
+
+    Hello! Tell me what content you need, and I''ll deliver a polished, ready-to-publish
+    piece—no fluff attached.'
+  ts: 1778180328.3786592
+- action: verify_compound
+  description: Verify content saved to file
+  success: true
+  summary: Verified 1 phase(s) with output. (0 placeholder response(s) detected)
+  ts: 1778180328.3789608
+tags:
+- auto-recorded
+- success
+version: 1.0.0

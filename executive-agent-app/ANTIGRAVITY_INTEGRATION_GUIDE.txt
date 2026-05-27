@@ -1,0 +1,773 @@
+================================================================================
+EXECUTIVE AGENT - ANTIGRAVITY INTEGRATION GUIDE
+================================================================================
+
+This document provides a complete overview of the Executive Agent codebase
+and step-by-step instructions for integrating it into Antigravity.
+
+================================================================================
+SECTION 1: WHAT'S BEEN BUILT (70+ FILES)
+================================================================================
+
+1.1 SPECIALIST AGENTS (src/agents/)
+--------------------------------------------------------------------------------
+
+Agent File              Purpose                         Key Methods
+---------------------   -----------------------------   -------------------------
+commander_agent.py      Main task router                analyze_goal(), plan_steps(),
+                                                        route_step(), execute_goal()
+
+coder_agent.py          Software development            inspect_project(), generate_code(),
+                                                        run_build(), run_tests()
+
+browser_agent.py        Web automation                  open_site(), analyze_form(),
+                                                        fill_form(), complete_multistep_flow()
+
+desktop_agent.py        Desktop control                 launch_target_app(), focus_window(),
+                                                        perform_ui_step(), verify_ui_state()
+
+job_agent.py            Job applications                match_job(), prepare_application_payload(),
+                                                        fill_application()
+
+sales_agent.py          Market research                 collect_market_info(), structure_leads(),
+                                                        draft_outreach()
+
+content_agent.py        Content creation                create_youtube_description(),
+                                                        create_tiktok_caption(),
+                                                        create_outreach_email()
+
+skill_agent.py          Skill management                search_skills(), install_skill(),
+                                                        list_skills()
+
+memory_agent.py         Memory access                   fetch_saved_answer(), load_workflow(),
+                                                        get_project_context()
+
+
+1.2 EXTENDED TOOLS (src/tools_ext/)
+--------------------------------------------------------------------------------
+
+Tool File               Backend                         Key Functions
+---------------------   -----------------------------   -------------------------
+browser_tools.py        Playwright                      browser_open(), browser_click(),
+                                                        browser_type(), browser_upload(),
+                                                        browser_screenshot(),
+                                                        browser_extract_fields()
+
+form_tools.py           Playwright + logic              analyze_form_fields(),
+                                                        map_fields_to_profile(),
+                                                        fill_form_from_profile(),
+                                                        select_dropdowns(), upload_files()
+
+desktop_tools.py        pywinauto/uiautomation/         launch_application(), focus_window(),
+                        pyautogui                       list_controls(), click_control(),
+                                                        type_into_control(), send_hotkey(),
+                                                        capture_window()
+
+vision_tools.py         OpenCV/pyautogui                capture_screen_region(),
+                                                        compare_screens(),
+                                                        locate_visual_target(),
+                                                        click_visual_target(),
+                                                        wait_for_visual_target()
+
+profile_tools.py        ProfileStore                    load_user_profile(),
+                                                        get_profile_field(),
+                                                        get_job_answer(),
+                                                        get_default_resume(),
+                                                        get_contact_info()
+
+workflow_tools.py       WorkflowStore                   start_workflow_recording(),
+                                                        record_workflow_step(),
+                                                        save_workflow(), load_workflow(),
+                                                        replay_workflow(),
+                                                        convert_workflow_to_skill()
+
+skill_tools.py          File system + registry          search_skill_sources(),
+                                                        download_skill(), validate_skill(),
+                                                        install_skill(), list_skills(),
+                                                        uninstall_skill(), enable_skill()
+
+app_control_tools.py    DesktopTools                    open_in_photoshop(),
+                                                        open_in_illustrator(),
+                                                        open_in_blender(),
+                                                        export_from_current_app()
+
+
+1.3 APPLICATION ADAPTERS (src/integrations/)
+--------------------------------------------------------------------------------
+
+Adapter File            Software                        Control Method
+---------------------   -----------------------------   -------------------------
+photoshop_adapter.py    Adobe Photoshop                 COM automation
+illustrator_adapter.py  Adobe Illustrator               COM automation
+aftereffects_adapter.py Adobe After Effects             ExtendScript
+autocad_adapter.py      AutoCAD                         COM automation
+blender_adapter.py      Blender                         Python API + CLI
+office_adapter.py       Microsoft Office                COM automation
+
+Each adapter implements:
+- is_available() - Check if app is installed
+- launch() - Start the application
+- open_file() - Open a document
+- save_document() - Save current document
+- export_document() - Export to different format
+- App-specific operations
+
+
+1.4 MEMORY SYSTEM (src/memory/)
+--------------------------------------------------------------------------------
+
+Module File             Purpose                         Storage
+---------------------   -----------------------------   -------------------------
+profile_store.py        User profiles & job answers     JSON files
+workflow_store.py       Saved workflows                 YAML files
+project_store.py        Project notes & instructions    JSON + text files
+
+Profile Data:
+- user_profile.json: name, location, emails, phones, linkedin, job_titles, skills
+- job_answers.json: work_authorization, notice_period, salary_expectation, etc.
+
+
+1.5 GUI COMPONENTS (src/gui/)
+--------------------------------------------------------------------------------
+
+Module File             Purpose
+---------------------   -------------------------
+app.py                  PySide6 application entry point
+main_window.py          Main window with chat, tasks, workflows, skills tabs
+chat_panel.py           Chat interface with message history
+
+task_panel.py           Task list with progress tracking
+
+
+1.6 ENTRY POINTS
+--------------------------------------------------------------------------------
+
+File                    Mode                            Usage
+---------------------   -----------------------------   -------------------------
+main.py                 CLI + GUI + Single goal         python -m src.main
+                                                        python -m src.main --gui
+                                                        python -m src.main --goal "..."
+
+cli.py                  Interactive CLI                 python -m src.cli
+repl.py                 Enhanced REPL                   python -m src.repl
+
+
+1.7 CONFIGURATION FILES (config/)
+--------------------------------------------------------------------------------
+
+File                    Purpose
+---------------------   -------------------------
+settings.yaml           General app settings, paths, features
+models.yaml             LLM provider configuration (Ollama, Anthropic, OpenAI)
+permissions.yaml        Permission levels (allow/ask/deny) for each action
+apps.yaml               Application paths and detection settings
+skills.yaml             Skill system configuration and sources
+
+
+================================================================================
+SECTION 2: WHAT'S LEFT TO MAKE IT WORK
+================================================================================
+
+2.1 PROVIDER INTEGRATION (CRITICAL)
+--------------------------------------------------------------------------------
+
+Current State: Placeholder - no actual LLM calls implemented
+
+Need to Create:
+
+A. src/providers/local_provider.py
+   - Ollama integration for local models
+   - Support for llama3.2, codellama, llava
+   
+B. src/providers/model_router.py
+   - Route tasks to appropriate model:
+     * coding tasks → codellama
+     * browser tasks → fast lightweight model
+     * vision tasks → llava
+     * general tasks → llama3.2
+
+C. Integration with existing agent_loop.py
+   - Add LLM calls to commander agent for goal analysis
+   - Add LLM calls to specialist agents for task execution
+
+
+2.2 AGENT LOOP INTEGRATION (CRITICAL)
+--------------------------------------------------------------------------------
+
+Current State: Agents have handlers but no execution loop
+
+Need to Add to src/tool_system/agent_loop.py:
+
+class AgentLoop:
+    def __init__(self, runtime):
+        self.runtime = runtime
+        self.commander = runtime["commander"]
+        
+    async def run(self, goal):
+        # 1. Commander analyzes goal
+        analysis = self.commander.analyze_goal(goal)
+        
+        # 2. Create execution plan
+        plan = self.commander.plan_steps(goal)
+        
+        # 3. Execute each step
+        results = []
+        for step in plan["steps"]:
+            agent_name = step["agent"]
+            action = step["action"]
+            
+            # Route to correct agent
+            result = await self.route_to_agent(agent_name, action, context)
+            results.append(result)
+            
+            # Check result, retry if needed
+            if not result.get("success"):
+                result = await self.retry_step(step, result)
+                
+            # Log to workflow if recording
+            self.log_step_to_workflow(step, result)
+            
+        return {"success": True, "results": results}
+
+
+2.3 TOOL REGISTRY EXTENSION (HIGH PRIORITY)
+--------------------------------------------------------------------------------
+
+Current State: Tools exist but aren't registered in the system
+
+Need to Add to src/tool_system/defaults.py:
+
+def register_extended_tools(registry, runtime_context):
+    # Browser tools
+    registry.register_tool("browser_open", runtime_context["browser_tools"].browser_open)
+    registry.register_tool("browser_click", runtime_context["browser_tools"].browser_click)
+    registry.register_tool("browser_type", runtime_context["browser_tools"].browser_type)
+    registry.register_tool("browser_select", runtime_context["browser_tools"].browser_select)
+    registry.register_tool("browser_upload", runtime_context["browser_tools"].browser_upload)
+    registry.register_tool("browser_screenshot", runtime_context["browser_tools"].browser_screenshot)
+    registry.register_tool("browser_extract_fields", runtime_context["browser_tools"].browser_extract_fields)
+    registry.register_tool("browser_wait_for", runtime_context["browser_tools"].browser_wait_for)
+    registry.register_tool("browser_navigate", runtime_context["browser_tools"].browser_navigate)
+    
+    # Desktop tools
+    registry.register_tool("launch_application", runtime_context["desktop_tools"].launch_application)
+    registry.register_tool("focus_window", runtime_context["desktop_tools"].focus_window)
+    registry.register_tool("list_controls", runtime_context["desktop_tools"].list_controls)
+    registry.register_tool("click_control", runtime_context["desktop_tools"].click_control)
+    registry.register_tool("type_into_control", runtime_context["desktop_tools"].type_into_control)
+    registry.register_tool("send_hotkey", runtime_context["desktop_tools"].send_hotkey)
+    registry.register_tool("capture_window", runtime_context["desktop_tools"].capture_window)
+    
+    # Profile tools
+    registry.register_tool("get_profile_field", runtime_context["profile_tools"].get_profile_field)
+    registry.register_tool("get_job_answer", runtime_context["profile_tools"].get_job_answer)
+    registry.register_tool("get_default_resume", runtime_context["profile_tools"].get_default_resume)
+    
+    # Workflow tools
+    registry.register_tool("start_workflow_recording", runtime_context["workflow_tools"].start_workflow_recording)
+    registry.register_tool("save_workflow", runtime_context["workflow_tools"].save_workflow)
+    registry.register_tool("load_workflow", runtime_context["workflow_tools"].load_workflow)
+
+
+2.4 CONTEXT SYSTEM EXTENSION (HIGH PRIORITY)
+--------------------------------------------------------------------------------
+
+Current State: context.py exists but needs profile/workflow fields
+
+Need to Add to src/tool_system/context.py:
+
+class ToolContext:
+    def __init__(self):
+        # Existing fields
+        self.workspace_path = None
+        self.session_id = None
+        
+        # New fields needed
+        self.user_profile = None
+        self.job_answers = None
+        self.active_agent = "commander"
+        self.active_workflow = None
+        self.current_app = None
+        self.browser_session = None
+        self.workflow_buffer = []
+        self.workflow_recording = False
+        
+    def load_profile(self, profile_store):
+        self.user_profile = profile_store.user_profile
+        self.job_answers = profile_store.job_answers
+        
+    def start_workflow_recording(self, name, category):
+        self.workflow_recording = True
+        self.active_workflow = {
+            "name": name,
+            "category": category,
+            "steps": [],
+            "started_at": time.time()
+        }
+        
+    def record_step(self, action, params, result):
+        if self.workflow_recording and self.active_workflow:
+            self.active_workflow["steps"].append({
+                "action": action,
+                "params": params,
+                "result": result,
+                "timestamp": time.time()
+            })
+
+
+2.5 ASYNC INTEGRATION (HIGH PRIORITY)
+--------------------------------------------------------------------------------
+
+Current State: Browser tools are async, others are sync
+
+Solution - Wrap sync calls:
+
+import asyncio
+
+class AgentExecutor:
+    async def execute_tool(self, tool_name, params):
+        tool = self.registry.get_tool(tool_name)
+        
+        if asyncio.iscoroutinefunction(tool):
+            # Already async
+            return await tool(**params)
+        else:
+            # Wrap sync call
+            return await asyncio.to_thread(tool, **params)
+
+
+2.6 ERROR HANDLING & RETRY LOGIC (MEDIUM PRIORITY)
+--------------------------------------------------------------------------------
+
+Need to Add:
+
+class AgentExecutor:
+    async def execute_with_retry(self, agent, action, context, max_retries=3):
+        for attempt in range(max_retries):
+            try:
+                result = await agent.handle_task(action, context)
+                
+                if result.get("success"):
+                    return result
+                    
+                # Check if retryable
+                error = result.get("error", "")
+                if self.is_retryable_error(error):
+                    wait_time = 2 ** attempt  # Exponential backoff
+                    await asyncio.sleep(wait_time)
+                    continue
+                else:
+                    return result
+                    
+            except Exception as e:
+                if attempt == max_retries - 1:
+                    return {"success": False, "error": str(e)}
+                    
+    def is_retryable_error(self, error):
+        retryable_patterns = [
+            "timeout", "connection", "element not found",
+            "stale element", "page crash"
+        ]
+        return any(pattern in error.lower() for pattern in retryable_patterns)
+
+
+2.7 WORKFLOW RECORDING HOOKS (MEDIUM PRIORITY)
+--------------------------------------------------------------------------------
+
+Need to Add to agent_loop.py:
+
+class AgentLoop:
+    def __init__(self, runtime):
+        self.runtime = runtime
+        self.workflow_tools = runtime["workflow_tools"]
+        
+    async def execute_step(self, step, context):
+        # Before execution
+        self.before_step_hook(step)
+        
+        # Execute
+        result = await self.route_to_agent(step["agent"], step["action"], context)
+        
+        # After execution
+        self.after_step_hook(step, result)
+        
+        # Auto-save successful workflows
+        if result.get("success") and self.is_reusable_sequence():
+            self.prompt_save_workflow()
+            
+        return result
+        
+    def before_step_hook(self, step):
+        if self.context.workflow_recording:
+            self.pending_step = {
+                "action": step["action"],
+                "params": step.get("params", {}),
+                "start_time": time.time()
+            }
+            
+    def after_step_hook(self, step, result):
+        if self.context.workflow_recording and hasattr(self, 'pending_step'):
+            self.context.record_step(
+                self.pending_step["action"],
+                self.pending_step["params"],
+                result
+            )
+            del self.pending_step
+
+
+2.8 PERMISSION SYSTEM INTEGRATION (MEDIUM PRIORITY)
+--------------------------------------------------------------------------------
+
+Current State: config/permissions.yaml exists but isn't enforced
+
+Need to Add:
+
+class PermissionManager:
+    def __init__(self, permissions_file="config/permissions.yaml"):
+        import yaml
+        with open(permissions_file) as f:
+            self.permissions = yaml.safe_load(f)
+            
+    def check_permission(self, action, context=None):
+        action_config = self.permissions["permissions"].get(action, {})
+        setting = action_config.get("default", "ask")
+        
+        if setting == "allow":
+            return True
+        elif setting == "deny":
+            return False
+        elif setting == "ask":
+            return self.prompt_user(action, context)
+            
+    def prompt_user(self, action, context):
+        # CLI version
+        response = input(f"Allow {action}? (y/n): ")
+        return response.lower() == "y"
+        
+        # GUI version would use a dialog box
+
+
+2.9 GUI COMPLETION (LOWER PRIORITY)
+--------------------------------------------------------------------------------
+
+Current State: GUI shell exists but needs backend wiring
+
+Need to Add to src/gui/main_window.py:
+
+class MainWindow:
+    def __init__(self):
+        # ... existing setup ...
+        
+        # Connect to backend
+        from src.main import build_runtime
+        self.runtime = build_runtime()
+        self.commander = self.runtime["commander"]
+        
+    def send_message(self):
+        message = self.message_input.text().strip()
+        if not message:
+            return
+            
+        # Add to chat
+        self.chat_history.add_user_message(message)
+        self.message_input.clear()
+        
+        # Run in background thread
+        self.worker = AgentWorker(self.commander, message)
+        self.worker.finished.connect(self.on_agent_finished)
+        self.worker.progress.connect(self.on_agent_progress)
+        self.worker.start()
+        
+    def on_agent_finished(self, result):
+        if result.get("success"):
+            self.chat_history.add_agent_message(
+                result.get("summary", "Task completed successfully")
+            )
+        else:
+            self.chat_history.add_system_message(
+                f"Error: {result.get('error', 'Unknown error')}"
+            )
+            
+    def on_agent_progress(self, message):
+        self.status_bar.showMessage(message)
+
+
+================================================================================
+SECTION 3: INTEGRATION CHECKLIST FOR ANTIGRAVITY
+================================================================================
+
+PHASE 1: CORE INTEGRATION (Week 1)
+--------------------------------------------------------------------------------
+[ ] Copy agents: cp -r executive-agent-app/src/agents antigravity/src/
+[ ] Copy tools: cp -r executive-agent-app/src/tools_ext antigravity/src/
+[ ] Copy memory: cp -r executive-agent-app/src/memory antigravity/src/
+[ ] Copy integrations: cp -r executive-agent-app/src/integrations antigravity/src/
+[ ] Copy prompts: cp -r executive-agent-app/src/prompts antigravity/src/
+[ ] Copy config: cp -r executive-agent-app/config antigravity/
+[ ] Copy profiles: cp -r executive-agent-app/profiles antigravity/
+
+[ ] Edit src/tool_system/agent_loop.py
+    - Add routing to new agents
+    - Add workflow recording hooks
+    - Add retry logic
+
+[ ] Edit src/tool_system/defaults.py
+    - Register extended tools
+
+[ ] Edit src/tool_system/context.py
+    - Add profile/workflow fields
+
+[ ] Test: python -m src.main --goal "List files in current directory"
+
+
+PHASE 2: PROVIDER INTEGRATION (Week 1-2)
+--------------------------------------------------------------------------------
+[ ] Create src/providers/local_provider.py
+    - Ollama integration
+    - Chat completion method
+    - Tool calling support
+
+[ ] Create src/providers/model_router.py
+    - Task-based model selection
+    - Fallback chain
+
+[ ] Edit src/agents/commander_agent.py
+    - Add actual LLM calls for goal analysis
+
+[ ] Test: Verify LLM calls work
+    - Test with simple goal
+    - Verify tool selection
+
+
+PHASE 3: TOOL INTEGRATION (Week 2)
+--------------------------------------------------------------------------------
+[ ] Wire browser tools to agent loop
+    - Test browser_open
+    - Test form filling
+
+[ ] Wire desktop tools to agent loop
+    - Test app launching
+    - Test window control
+
+[ ] Test form filling with profile data
+    - Load test profile
+    - Fill a test form
+
+[ ] Test app launching (Photoshop, etc.)
+    - Check if available
+    - Test open file
+
+
+PHASE 4: WORKFLOW SYSTEM (Week 3)
+--------------------------------------------------------------------------------
+[ ] Add recording hooks to agent loop
+    - Start recording
+    - Record each step
+    - Save workflow
+
+[ ] Test workflow save/load
+    - Record simple workflow
+    - Save to file
+    - Load and verify
+
+[ ] Test workflow-to-skill conversion
+    - Convert workflow
+    - Install as skill
+    - Use skill
+
+
+PHASE 5: GUI POLISH (Week 3-4)
+--------------------------------------------------------------------------------
+[ ] Copy GUI: cp -r executive-agent-app/src/gui antigravity/src/
+
+[ ] Connect GUI to backend
+    - Wire chat panel
+    - Wire task panel
+
+[ ] Add task progress display
+    - Show active tasks
+    - Show progress bar
+
+[ ] Add workflow/skill panels
+    - List workflows
+    - List skills
+    - Enable/disable skills
+
+
+================================================================================
+SECTION 4: KEY FILES TO FOCUS ON
+================================================================================
+
+MOST IMPORTANT (Edit These First):
+----------------------------------
+1. src/tool_system/agent_loop.py
+   - Connect your existing loop to new agents
+   - Add workflow recording hooks
+   - Add retry logic
+
+2. src/tool_system/defaults.py
+   - Register extended tools
+   - Add tool categories
+
+3. src/tool_system/context.py
+   - Add profile/workflow context fields
+   - Add workflow recording state
+
+4. src/providers/ (create new)
+   - Add local_provider.py for Ollama
+   - Add model_router.py for task-based routing
+
+
+SECOND PRIORITY:
+----------------------------------
+5. src/main.py
+   - Already done, but verify integration with your system
+
+6. src/agents/commander_agent.py
+   - May need to add actual LLM calls for goal analysis
+
+7. src/gui/main_window.py
+   - Wire to backend runtime
+
+
+THIRD PRIORITY:
+----------------------------------
+8. src/integrations/*.py
+   - Test app adapters
+   - Verify COM connections
+
+9. src/tools_ext/*.py
+   - Most are complete
+   - May need bug fixes during testing
+
+
+================================================================================
+SECTION 5: QUICK START FOR ANTIGRAVITY
+================================================================================
+
+STEP 1: Copy the Structure
+--------------------------
+cp -r executive-agent-app/src/agents antigravity/src/
+cp -r executive-agent-app/src/tools_ext antigravity/src/
+cp -r executive-agent-app/src/memory antigravity/src/
+cp -r executive-agent-app/src/integrations antigravity/src/
+cp -r executive-agent-app/src/prompts antigravity/src/
+cp -r executive-agent-app/src/gui antigravity/src/
+cp -r executive-agent-app/config antigravity/
+cp -r executive-agent-app/profiles antigravity/
+
+
+STEP 2: Add Dependencies
+------------------------
+# Add to requirements.txt:
+playwright>=1.40.0
+pywinauto>=0.6.8
+uiautomation>=2.0.15
+pyautogui>=0.9.54
+pywin32>=306
+opencv-python>=4.8.0
+pillow>=10.0.0
+pyyaml>=6.0
+pyside6>=6.5.0
+
+# Install:
+pip install -r requirements.txt
+playwright install
+
+
+STEP 3: Edit Your Existing Files
+--------------------------------
+# Edit src/tool_system/agent_loop.py
+# Edit src/tool_system/defaults.py
+# Edit src/tool_system/context.py
+
+
+STEP 4: Test
+------------
+python -m src.main --goal "Open Chrome and go to google.com"
+
+
+================================================================================
+SECTION 6: ARCHITECTURE DIAGRAM
+================================================================================
+
+User Input
+    |
+    v
+[CLI/GUI/REPL]
+    |
+    v
+main.py → build_runtime() → creates all agents/tools
+    |
+    v
+Commander Agent (analyzes goal, creates plan)
+    |
+    v
+Routes to specialist agent:
+    |---> Coder Agent → File/Shell tools
+    |---> Browser Agent → Playwright tools
+    |---> Desktop Agent → pywinauto tools
+    |---> Job Agent → Browser + Profile tools
+    |---> Sales Agent → Web search + Analysis
+    |---> Content Agent → LLM generation
+    |---> Skill Agent → Skill tools
+    |---> Memory Agent → Profile/Workflow stores
+    |
+    v
+Tool Execution (with retry logic)
+    |
+    v
+Result → Log to workflow (if recording)
+    |
+    v
+Return to user
+
+
+================================================================================
+SECTION 7: TESTING CHECKLIST
+================================================================================
+
+BASIC FUNCTIONALITY:
+[ ] Agent routing works
+[ ] Browser opens and navigates
+[ ] Desktop app launches
+[ ] Form fields are detected
+[ ] Profile data loads
+
+ADVANCED FUNCTIONALITY:
+[ ] Form filling with profile data
+[ ] Multi-step workflow execution
+[ ] Workflow recording and replay
+[ ] Skill installation and usage
+[ ] App adapter connections (Photoshop, etc.)
+
+ERROR HANDLING:
+[ ] Retry on timeout
+[ ] Graceful failure
+[ ] User permission prompts
+[ ] Error logging
+
+
+================================================================================
+SECTION 8: COMMON ISSUES & SOLUTIONS
+================================================================================
+
+Issue: Playwright not found
+Solution: Run "playwright install"
+
+Issue: pywin32 not working
+Solution: Install with "pip install pywin32" and restart
+
+Issue: Async/sync mismatch
+Solution: Use asyncio.to_thread() for sync calls in async context
+
+Issue: COM apps not connecting
+Solution: Run as administrator, check app is installed
+
+Issue: Profile not loading
+Solution: Check profiles/user_profile.json exists and is valid JSON
+
+
+================================================================================
+END OF DOCUMENT
+================================================================================

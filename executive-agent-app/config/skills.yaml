@@ -1,0 +1,59 @@
+skill_system:
+  enabled: true
+  auto_install: false
+  quarantine_enabled: true
+  validation_required: true
+
+sources:
+  - name: "local"
+    path: "skills/installed"
+    priority: 1
+    enabled: true
+
+  - name: "community"
+    url: "https://skills.executive-agent.community"
+    priority: 2
+    enabled: false
+
+  - name: "official"
+    url: "https://skills.executive-agent.official"
+    priority: 3
+    enabled: true
+
+categories:
+  - name: "browser"
+    description: "Web automation and form filling"
+    tags: ["web", "forms", "automation"]
+
+  - name: "desktop"
+    description: "Desktop application control"
+    tags: ["apps", "ui", "automation"]
+
+  - name: "creative"
+    description: "Creative software workflows"
+    tags: ["photoshop", "illustrator", "blender"]
+
+  - name: "jobs"
+    description: "Job application workflows"
+    tags: ["career", "applications"]
+
+  - name: "content"
+    description: "Content creation workflows"
+    tags: ["writing", "social", "marketing"]
+
+  - name: "coding"
+    description: "Development workflows"
+    tags: ["code", "build", "test"]
+
+manifest_schema:
+  required_fields:
+    - name
+    - version
+    - description
+    - author
+    - entry_point
+  optional_fields:
+    - dependencies
+    - tags
+    - target_apps
+    - min_agent_version

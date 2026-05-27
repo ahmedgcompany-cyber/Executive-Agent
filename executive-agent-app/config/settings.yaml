@@ -1,0 +1,78 @@
+app:
+  name: "MegaV"
+  version: "2.7.0"
+  build_date: "2026-05-07"
+  description: "Local-first executive AI operator — real code, real automation, real output. No fakes."
+  author: "Ahmed AlGhoul"
+
+paths:
+  config_dir: "~/.executive-agent"
+  profiles_dir: "profiles"
+  skills_dir: "skills"
+  workflows_dir: "workflows"
+  logs_dir: "logs"
+  prompts_dir: "src/prompts"
+
+features:
+  browser_automation: true
+  desktop_automation: true
+  profile_memory: true
+  workflow_recording: true
+  skill_management: true
+  gui_mode: false
+  email_integration: true       # IMAP/SMTP multi-account email (Gmail, Outlook, custom)
+  smart_inbox: true             # AI-powered inbox classification and prioritisation
+  crm_pipeline: true            # Local contact/lead CRM with follow-up tracking
+  github_automation: true       # Repo create, issue manage, commit/push
+  social_automation: true       # LinkedIn/Twitter/Instagram post scheduling
+  agency_library: true          # 190+ specialist agent personalities
+  nexus_orchestration: true     # NEXUS multi-agent pipeline (micro/sprint/full modes)
+  native_skills: true           # 56 native Python skill handlers (v2.2 — Superpowers + GStack + Frontend Design + MCP)
+  output_engine: true           # Auto-format results → Excel/PDF/JSON/code/ZIP per task type
+  prose_guard: true             # LLM prose-detection: blocks text descriptions saved as code
+  self_repair: true             # SelfRepairEngine: auto-diagnoses and fixes failures mid-task
+  superpowers_plugin: true      # 14 Superpowers development workflow skills
+  gstack_suite: true            # 35+ GStack QA/dev/design skills
+  mcp_servers: true             # MCP integration (Playwright, Context7, Tavily)
+
+agency:
+  library_path: "src/agents/agency"
+  nexus_default_mode: "micro"   # micro | sprint | full
+  nexus_max_retries: 3
+  enable_dev_qa_loop: true
+
+execution:
+  max_retries: 3
+  timeout_seconds: 300
+  verify_outputs: true
+  save_workflows: true
+
+logging:
+  level: "INFO"
+  file_rotation: true
+  max_log_files: 10
+
+mcp_servers:
+  playwright:
+    enabled: true
+    command: "npx @playwright/mcp@latest"
+    description: "Browser automation via Playwright"
+  context7:
+    enabled: true
+    command: "npx -y @upstash/context7-mcp"
+    description: "Library documentation lookup"
+  tavily:
+    enabled: true
+    command: "npx -y tavily-mcp"
+    env: { TAVILY_API_KEY: "" }
+    description: "Web search and research"
+
+# Secrets are NEVER stored in this file.
+# Stripe key resolution order (see src/integrations/secrets.py):
+#   1. Environment variable: STRIPE_API_KEY
+#   2. CredentialStore service "stripe" -> field "api_key"
+#   3. Empty (Stripe-dependent features disabled)
+
+# Routing default — sensitive data stays local-only unless user opts in.
+prefer_uncensored: false
+auto_pull_models: false

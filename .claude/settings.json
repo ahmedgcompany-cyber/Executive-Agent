@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c ':*)",
+      "Bash(xargs grep:*)",
+      "Bash(grep -v __pycache__ echo \"---BAT/VBS---\" grep -l \"Executive Agent\" \"c:/Users/AHMED/OneDrive/Desktop/Executive Agent/\"*.bat \"c:/Users/AHMED/OneDrive/Desktop/Executive Agent/\"*.vbs echo \"---YAML/JSON---\" grep -rl \"Executive Agent\" \"c:/Users/AHMED/OneDrive/Desktop/Executive Agent/executive-agent-app/config\")",
+      "Read(//c/Users/AHMED/Desktop/**)",
+      "Bash(powershell -Command \"Get-ChildItem 'C:\\\\Users\\\\AHMED\\\\Desktop\\\\' | Select-Object Name\")",
+      "Bash(powershell -Command \"Get-ChildItem 'C:\\\\Users\\\\AHMED\\\\OneDrive\\\\Desktop\\\\' | Select-Object Name\")",
+      "Bash(powershell -Command ':*)",
+      "Bash(py -)",
+      "Bash(unzip -q agency-agents-main.zip)",
+      "Bash(py -c ':*)",
+      "Read(//c/Users/AHMED/.claude/projects/c--Users-AHMED-OneDrive-Desktop-Executive-Agent/**)",
+      "Bash(py -m py_compile src/integrations/email_service.py)",
+      "Bash(py -c \"import requests; import bs4; print\\('requests:', requests.__version__, '| bs4:', bs4.__version__\\)\")",
+      "Bash(start /B py main.py)",
+      "Bash(Start-Process py:*)",
+      "Bash(cmd /c \"start py \\\\\"c:/Users/AHMED/OneDrive/Desktop/Projects/Fully_Functional_Photoshop-Like_Desktop/main.py\\\\\"\")",
+      "Bash(powershell -ExecutionPolicy Bypass -File \"C:/Users/AHMED/OneDrive/Desktop/Executive Agent/update_shortcuts.ps1\")",
+      "Bash(py build_zip.py)",
+      "Bash(python -c \"import PySide6; print\\(PySide6.__version__\\)\")",
+      "Bash(python -u -c ':*)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\AHMED\\.claude\\projects\\c--Users-AHMED-OneDrive-Desktop-Executive-Agent",
+      "c:\\Users\\AHMED\\OneDrive\\Desktop\\Projects\\Fully_Functional_Photoshop-Like_Desktop"
+    ]
+  }
+}

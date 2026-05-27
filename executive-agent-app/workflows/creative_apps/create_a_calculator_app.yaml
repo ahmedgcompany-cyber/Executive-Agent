@@ -1,0 +1,15 @@
+category: creative_apps
+created_at: '2026-04-18T12:39:22.159970'
+description: create a calculator app
+name: create_a_calculator_app
+steps:
+- action: skill_execution
+  description: 'Skills: canvas-design + frontend-design + github-repo-creator'
+  success: true
+  summary: "[canvas-design] \n\n[frontend-design] \n\n[GitHub — Repo Creator] FAILED:\
+    \ Could not determine GitHub action from prompt"
+  ts: 1776501562.142812
+tags:
+- auto-recorded
+- success
+version: 1.0.0

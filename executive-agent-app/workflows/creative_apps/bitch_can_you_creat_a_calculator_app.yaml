@@ -1,0 +1,14 @@
+category: creative_apps
+created_at: '2026-04-18T11:05:26.660200'
+description: bitch can you creat a calculator app
+name: bitch_can_you_creat_a_calculator_app
+steps:
+- action: generate_code
+  description: Implement the requested code
+  success: false
+  summary: 'coder handler raised: ''NoneType'' object has no attribute ''get'''
+  ts: 1776495926.6381578
+tags:
+- auto-recorded
+- failed
+version: 1.0.0

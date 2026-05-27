@@ -1,0 +1,117 @@
+applications:
+  # Adobe Creative Suite
+  photoshop:
+    name: "Adobe Photoshop"
+    executable: "photoshop.exe"
+    script_support: true
+    script_engine: "javascript"
+    common_actions:
+      - open
+      - save
+      - export
+      - resize
+      - filter
+
+  illustrator:
+    name: "Adobe Illustrator"
+    executable: "illustrator.exe"
+    script_support: true
+    script_engine: "javascript"
+    common_actions:
+      - open
+      - save
+      - export
+      - trace
+
+  aftereffects:
+    name: "Adobe After Effects"
+    executable: "afterfx.exe"
+    script_support: true
+    script_engine: "javascript"
+    common_actions:
+      - open
+      - render
+      - export
+
+  # 3D and CAD
+  blender:
+    name: "Blender"
+    executable: "blender.exe"
+    script_support: true
+    script_engine: "python"
+    common_actions:
+      - open
+      - render
+      - export
+
+  autocad:
+    name: "AutoCAD"
+    executable: "acad.exe"
+    script_support: true
+    script_engine: "lisp"
+    common_actions:
+      - open
+      - plot
+      - export
+
+  # Office Suite
+  word:
+    name: "Microsoft Word"
+    executable: "winword.exe"
+    script_support: true
+    script_engine: "vba"
+    common_actions:
+      - open
+      - save
+      - export
+      - print
+
+  excel:
+    name: "Microsoft Excel"
+    executable: "excel.exe"
+    script_support: true
+    script_engine: "vba"
+    common_actions:
+      - open
+      - save
+      - export
+      - chart
+
+  powerpoint:
+    name: "Microsoft PowerPoint"
+    executable: "powerpnt.exe"
+    script_support: true
+    script_engine: "vba"
+    common_actions:
+      - open
+      - save
+      - export
+      - present
+
+  # Development
+  vscode:
+    name: "Visual Studio Code"
+    executable: "code.exe"
+    script_support: false
+    common_actions:
+      - open
+      - command_palette
+
+  # Browsers
+  chrome:
+    name: "Google Chrome"
+    executable: "chrome.exe"
+    script_support: false
+
+  firefox:
+    name: "Mozilla Firefox"
+    executable: "firefox.exe"
+    script_support: false
+
+# Detection settings
+detection:
+  search_paths:
+    - "C:\\Program Files"
+    - "C:\\Program Files (x86)"
+    - "~\\AppData\\Local"
+  registry_check: true

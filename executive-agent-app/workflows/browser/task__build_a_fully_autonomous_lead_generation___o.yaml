@@ -1,0 +1,64 @@
+category: browser
+created_at: '2026-04-14T11:47:26.813369'
+description: 'Task: Build a Fully Autonomous Lead Generation + Outreach System
+
+
+  Your AI agent must do ALL of this without manual intervention:
+
+
+  1. Target Discovery
+
+  Identify a niche (e.g., real estate agents in Duba'
+name: Task__Build_a_Fully_Autonomous_Lead_Generation___O
+steps:
+- action: open_site
+  description: Open target website
+  success: true
+  summary: "WEB RESEARCH: Real Estate Agents in Dubai\nFound 10 businesses via real\
+    \ web search\n============================================================\n\n\
+    LEAD #1\n  Company   : Realtor.com®\n  Website   : https://www.realtor.com/?msockid=24f49b8cbff2621e03ac8cb7bec2636d\n\
+    \  Overview  : Search homes for sale, new construction homes, apartments, and\
+    \ houses for rent. See property values. Shop mortgages.\n\nLEAD #2\n  Company\
+    \   : Top 100 Real Estate Companies in Dubai\n  Website   : https://toprealtors.ae/top100\n\
+    \  Overview  : Browse a curated list of thetop100realestatecompanies inDubai,\
+    \ ranked by trust, experience, and market reputation.\n\nLEAD #3\n  Company  \
+    \ : Best Real Estate Companies in Dubai: Huspy, Savills & More\n  Website   :\
+    \ https://www.bayut.com/mybayut/real-estate-agencies-dubai/\n  Overview  : The\
+    \ services of atoprealestateagency are essential when navigatingDubai'sproperty\
+    \ market. We reveal the bestrealestatecompanies inDubai.\n\nLEAD #4\n  Company\
+    \   : Top 3,820 Real Estate Agents in Dubai, UAE\n  Website   : https://www.yello.ae/category/estate-agents/city:dubai\n\
+    \  Overview  : Search results ofTop3,820RealEstateAgentsinDubai, UAE, near me.\
+    \ Listings are verified with accurate business information.\n\nLEAD #5\n  Company\
+    \   : Top Real Estate Agency & Brokerage in Dubai UAE\n  Website   : https://www.bhomes.com/en\n\
+    \  Overview  : UAE's #1realestateagency—Betterhomes—brings buyers, sellers, renters,\
+    \ and landlords together with expertagents. Find the best properties in the UAE\
+    \ today!\n\nLEAD #6\n  Company   : Find Real Estate Agents in Dubai — Property\
+    \ Finder\n  Website   : https://www.propertyfinder.ae/en/find-agent/lp/dubai\n\
+    \  Overview  : Find the bestrealestateagentsinDubaito rent, buy or sell a property\
+    \ seamlessly. See their experience, available properties and transaction record.\n\
+    \nLEAD #7\n  Company   : Top Real Estate Companies in Dubai\n  Website   : https://www.goodfirms.co/real-estate-companies/dubai\n\
+    \  Overview  : List of the bestrealestatecompanies fromDubaithat are experts in\
+    \ offering & maintaining good relationships with their customers withrealestateservices.\n\
+    \nLEAD #8\n  Company   : Top Real Estate Agencies in Dubai (2025 Edition): Rankings,\
+    \ Reviews ...\n  Website   : https://www.brokeryhero.com/blog/top-real-estate-agencies-in-dubai-2025-edition-rankings-reviews-awards\n\
+    \  Overview  : Looking for the bestrealestateagencies inDubai? This 2025 expert\
+    \ guide ranks thetop-performing firms based on Google reviews, industry awards,\
+    \ and proven broker performance.\n\nLEAD #9\n  Company   : 10 Top Real Estate\
+    \ Websites in Dubai, UAE [2026 Updated]\n  Website   : https://www.globalmediainsight.com/blog/real-estate-websites-dubai/\n\
+    \  Overview  : Keeping in mind the growth of therealestatesector inDubai, we explore\
+    \ thewebsitesof leadingrealestatecompanies and pick ourtop10.\n\nLEAD #10\n  Company\
+    \   : Top 10 Real Estate Brokers in Dubai 2025\n  Website   : https://gulfcareerhub.com/top-10-real-estate-brokers-in-dubai-2025/\n\
+    \  Overview  : Explore thetop10realestatebrokers inDubai2025 offering trusted\
+    \ services in buying, selling, renting, and investment properties across prime\
+    \ and emerging areas.\n\n============================================================\n\
+    Real data scraped from the web — no hallucination."
+  ts: 1776152829.1704607
+- action: analyze_form
+  description: Analyze page/form structure
+  success: false
+  summary: No active browser session
+  ts: 1776152832.1763494
+tags:
+- auto-recorded
+- success
+version: 1.0.0
