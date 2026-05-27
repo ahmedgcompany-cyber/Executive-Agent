@@ -1,0 +1,9 @@
+QApplication: OK
+PYSIDE_AVAILABLE: True
+MainWindow: OK
+EditProfileDialog: OK
+ProfileTabWidget: OK
+QApplication created
+MainWindow created
+Window shown and raised
+App exited: code=0
